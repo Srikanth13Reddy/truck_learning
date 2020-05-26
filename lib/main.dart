@@ -13,7 +13,7 @@ bool result;
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: PrimaryButtonColor,
-    statusBarBrightness: Brightness.dark,
+    statusBarBrightness: Brightness.light,
   ));
   WidgetsFlutterBinding.ensureInitialized();
   result = await appAuth.checkAlreadyLogin();
@@ -25,13 +25,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'AHC',
+      title: 'National Training',
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => LoginPage(),
         '/home': (BuildContext context) => HomePage(),
       },
       theme: ThemeData(
-        primaryColor: Color(0xffff8435),
+        primarySwatch: Colors.orange
       ),
       home: result ? HomePage() : LoginPage(),
     );

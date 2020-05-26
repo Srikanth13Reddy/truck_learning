@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:truck_learning/ui/coursc_ui.dart';
 import 'package:truck_learning/utils/colors.dart';
 import 'package:truck_learning/utils/customtextstyle.dart';
+import 'package:truck_learning/widgets/custom_toast.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,29 +12,38 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
 {
+
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      switch(_selectedIndex)
+      {
+        case 0:
+          CustomToast.show('WishList',context);
+          print('WishList');
+          break;
+        case 1:
+          CustomToast.show('Search',context);
+          print('Search');
+          break;
+        case 2:
+          CustomToast.show('My Courses',context);
+          print('My Courses');
+          break;
+        case 3:
+          CustomToast.show('Account',context);
+          print('Account');
+          break;
+
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            title: Text('Business'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            title: Text('School'),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
-      ),
-    );
+      bottomNavigationBar: _bottomNavBar(),
      backgroundColor: Colors.white,
       body: SafeArea(
         child: Expanded(
@@ -261,13 +272,8 @@ class _HomePageState extends State<HomePage>
         color: PrimaryButtonColor,
         child: Text('Get Started',style: TextStyle(color: Colors.white),),
         onPressed: (){
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) {
-                return HomePage();
-              },
-            ),
-          );
+          Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext ctx) => Coursc()));
         },
         shape: RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(20.0)
@@ -280,6 +286,38 @@ class _HomePageState extends State<HomePage>
         alignment: Alignment.topLeft,
         child: button,
       ),
+    );
+  }
+
+  Widget _bottomNavBar()
+  {
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      selectedFontSize: 12,
+      unselectedFontSize: 12,
+      backgroundColor: Colors.black,
+      unselectedItemColor: Colors.white,
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.star_border),
+          title: Text('Wishlist'),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.search),
+          title: Text('Search'),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.video_library,),
+          title: Text('My Courses'),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.account_circle,),
+          title: Text('Account'),
+        ),
+      ],
+      currentIndex: _selectedIndex,
+      selectedItemColor: Colors.white,
+      onTap: _onItemTapped,
     );
   }
 

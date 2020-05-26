@@ -14,6 +14,7 @@ const Color FabBackgroundColor = Color.fromRGBO(108, 148, 53, 1);
 
 const Color BlackColor = Color.fromRGBO(48, 48, 48, 1);
 const Color BlueColor = Color.fromRGBO(57, 146, 172, 1);
+const Color LightGrey = Color.fromRGBO(242, 242, 242, 1);
 
 //Medium
 const FontWeight FontMedium = FontWeight.w500;

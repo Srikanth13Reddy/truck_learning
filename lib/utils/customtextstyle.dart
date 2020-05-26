@@ -23,6 +23,12 @@ final buttonTextStyle = GoogleFonts.rubik(
   fontWeight: FontMedium,
 );
 
+final truckTextStyle = GoogleFonts.rubik(
+  fontSize: 18,
+  color: WhiteColor,
+  fontWeight: FontMedium,
+);
+
 final borderButtonTextStyle = GoogleFonts.rubik(
   fontSize: 16,
   color: PrimaryButtonColor,

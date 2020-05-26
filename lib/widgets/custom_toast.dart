@@ -9,11 +9,11 @@ class CustomToast {
   static final int top = 2;
 
   static void show(String msg, BuildContext context,
-      {int duration = 1,
+      {int duration = 2,
       int gravity = 0,
-      Color backgroundColor = const Color(0xAA000000),
+      Color backgroundColor = Colors.black,
       textStyle = const TextStyle(fontSize: 15, color: Colors.white),
-      double backgroundRadius = 20,
+      double backgroundRadius = 15,
       Border border}) {
     ToastView.dismiss();
     ToastView.createView(msg, context, duration, gravity, backgroundColor,
@@ -64,7 +64,7 @@ class ToastView {
                   ),
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   padding: EdgeInsets.fromLTRB(16, 10, 16, 10),
-                  child: Text(msg, softWrap: true, style: textStyle),
+                  child: Text(msg==null ? '' :msg, softWrap: true, style: textStyle),
                 )),
           ),
           gravity: gravity),
