@@ -1,9 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:truck_learning/models/course_model.dart';
+import 'package:truck_learning/models/truck_list_model.dart';
 import 'package:truck_learning/services/save.dart';
 import 'package:truck_learning/services/saveView.dart';
+import 'package:truck_learning/ui/VideoView.dart';
+import 'package:truck_learning/ui/course_list_main.dart';
+import 'package:truck_learning/ui/sub_course_list.dart';
 import 'package:truck_learning/utils/colors.dart';
 import 'package:truck_learning/utils/constants.dart';
 import 'package:truck_learning/utils/customtextstyle.dart';
@@ -105,30 +108,41 @@ class _CourscState extends State<Coursc> implements SaveView
           itemBuilder: (context,index) {
             return Padding(
               padding: const EdgeInsets.only(left: 12,top: 12,right: 12),
-              child: Container(
-                height: 200,
-                margin: EdgeInsets.only(top: 12),
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: BackgroundColor, //                   <--- border color
-                    width: 1,
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (BuildContext ctx) => MainCourseList(filteredUser[index].vehicleTypeId,filteredUser[index].vehicleImage,filteredUser[index].vehicleType)));
+                },
+                child: Container(
+                  height: 200,
+                  margin: EdgeInsets.only(top: 12),
+                  decoration: BoxDecoration(
+                      color: const Color(0xff585858),
+                      image: new DecorationImage(
+                        fit: BoxFit.cover,
+                        colorFilter:
+                        ColorFilter.mode(Colors.black.withOpacity(0.2),
+                            BlendMode.dstATop),
+                        image: new NetworkImage(filteredUser[index].vehicleImage,),
+                      ),
+
+                    border: Border.all(
+                      color: BackgroundColor, //                   <--- border color
+                      width: 1,
+                    ),
+                       borderRadius: BorderRadius.circular(10),
+//                       gradient: LinearGradient(
+//                       begin: Alignment.topLeft,
+//                       end: Alignment.bottomLeft,
+//                           colors: [Colors.white,Colors.grey]
+//                    )
                   ),
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(filteredUser[index].vehicleImage,),
-                  ),
-                     borderRadius: BorderRadius.circular(10),
-                     gradient: LinearGradient(
-                     begin: Alignment.topLeft,
-                     end: Alignment.bottomLeft,
-                         colors: [Colors.white,Colors.grey]
-                  )
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Align(
-                    child: Text(filteredUser[index].vehicleType,style: truckTextStyle,),
-                    alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Align(
+                      child: Text(filteredUser[index].vehicleType,style: truckTextStyle,),
+                      alignment: Alignment.bottomCenter,
+                    ),
                   ),
                 ),
               ),
@@ -172,7 +186,7 @@ class _CourscState extends State<Coursc> implements SaveView
   }
 
   @override
-  void onSuccess(String res, String type,)
+  void onSuccess(var res, String type,)
   {
     setState(() {
       _isLoading=false;
@@ -186,7 +200,7 @@ class _CourscState extends State<Coursc> implements SaveView
   {
     var data_=jsonDecode(res);
     List listdata = data_['data'];
-    for(int i=0;i<names.length;i++)
+    for(int i=0;i<listdata.length;i++)
     {
       CourseModel courseModel=CourseModel();
       courseModel.description=listdata[i]['description'];

@@ -7,12 +7,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:truck_learning/services/save.dart';
 import 'package:truck_learning/services/saveView.dart';
 import 'package:truck_learning/ui/home/home_page.dart';
+import 'package:truck_learning/ui/signup/signup_additional_page.dart';
 import 'package:truck_learning/ui/signup/signup_page.dart';
 import 'package:truck_learning/utils/colors.dart';
 import 'package:truck_learning/utils/constants.dart';
 import 'package:truck_learning/utils/customtextstyle.dart';
 import 'package:truck_learning/utils/network_utils.dart';
 import 'package:truck_learning/widgets/custom_progress_bar.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -25,7 +27,37 @@ class _LoginPageState extends State<LoginPage> implements SaveView
   final myController_password = TextEditingController();
   bool _secureText = true;
   String email,password;
+  bool _isLoggedIn = false;
+  String gname,gmail;
+  GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
+  _googlelogin() async{
+    try{
+      await _googleSignIn.signIn();
+      setState(() {
+        _isLoggedIn = true;
+        gmail=_googleSignIn.currentUser.email;
+        gname=_googleSignIn.currentUser.displayName;
+        var id=_googleSignIn.currentUser.id;
+        var body = jsonEncode({
+          "loginProviderKey": id.toString(),
+          "email":gmail,
+        });
+        _isLoading=true;
+        SaveImpl(this,context).handleSaveView(body, 'Login/googleAuthentication', 'POST','Glogin');
+        print(_googleSignIn.currentUser.id);
+      });
+    } catch (err){
+      print(err);
+    }
+  }
+
+  _googlelogout(){
+    _googleSignIn.signOut();
+    setState(() {
+      _isLoggedIn = false;
+    });
+  }
 
   showHide() {
     setState(() {
@@ -167,10 +199,10 @@ class _LoginPageState extends State<LoginPage> implements SaveView
   {
     final button= SizedBox(
       width: 250,
-      height: 42,
+      height: 50,
       child: RaisedButton(
         color: PrimaryButtonColor,
-        child: Text('Login',style: TextStyle(color: Colors.white),),
+        child: Text('Login',style: buttonText,),
         onPressed: (){
 
           _login();
@@ -249,7 +281,7 @@ class _LoginPageState extends State<LoginPage> implements SaveView
               ),
             ),
             onPressed: () {
-
+              _googlelogin();
             },
           ),
         ));
@@ -327,18 +359,21 @@ class _LoginPageState extends State<LoginPage> implements SaveView
     setState(() {
       _isLoading=false;
     });
+    _googlelogout();
      var data= jsonDecode(res);
     Utility.showToast(context, data['errorMessage']);
   }
 
   @override
-  void onSuccess(String res, String type) {
+  void onSuccess(var res, String type)
+  {
     // TODO: implement onSuccess
     print(res);
     setState(() {
       _isLoading=false;
     });
-    _assigndata(res);
+    type=='Glogin'?_assigngoogledata(res):_assigndata(res);
+
   }
 
   Future<void> _assigndata(String res) async {
@@ -360,5 +395,43 @@ class _LoginPageState extends State<LoginPage> implements SaveView
               },
             ),
           );
+  }
+
+  void _assigngoogledata(res)async
+  {
+    final sharedPref = await SharedPreferences.getInstance();
+     var data= jsonDecode(res);
+     String phone=data['phone'];
+     String userId=data['userId'].toString();
+     print('Gdata'+"\n"+res);
+     if(!phone.isEmpty)
+       {
+         sharedPref.setString('userId', data['userId'].toString());
+         sharedPref.setString('firstName', data['firstName']);
+         sharedPref.setString('phone', data['phone']);
+         sharedPref.setString('email', data['email']);
+         sharedPref.setString('createdDate', data['createdDate']);
+         sharedPref.setString('accessToken', data['accessToken']);
+         sharedPref.setString('profileImage', data['profileImage']);
+         sharedPref.setBool('isLoggedIn_t', true);
+         _googlelogout();
+         Navigator.of(context).push(
+           MaterialPageRoute(
+             builder: (context) {
+               return HomePage();
+             },
+           ),
+         );
+       }else
+         {
+           _googlelogout();
+           Navigator.of(context).push(
+             MaterialPageRoute(
+               builder: (context) {
+                 return SignUpAditionalData(userId,gname,gmail);
+               },
+             ),
+           );
+         }
   }
 }

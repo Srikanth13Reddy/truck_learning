@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:truck_learning/services/save.dart';
@@ -23,8 +22,9 @@ class _LoginPageState extends State<SignUp> implements SaveView
   final myController_name = TextEditingController();
   final myController_mobile = TextEditingController();
   bool _secureText = true;
-  String email,password;
   bool _isLoading=false;
+  String email,password;
+
 
   showHide() {
     setState(() {
@@ -117,10 +117,10 @@ class _LoginPageState extends State<SignUp> implements SaveView
     );
     final button= SizedBox(
       width: 120,
-      height: 42,
+      height: 50,
       child: RaisedButton(
         color: PrimaryButtonColor,
-        child: Text('SignUp',style: TextStyle(color: Colors.white),),
+        child: Text('SignUp',style: buttonText,),
         onPressed: (){
           _signUp();
         },
@@ -308,7 +308,7 @@ class _LoginPageState extends State<SignUp> implements SaveView
   }
 
   @override
-  void onSuccess(String res, String type,)
+  void onSuccess(var res, String type,)
   {
     // TODO: implement onSuccess
     setState(() {

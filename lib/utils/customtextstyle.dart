@@ -106,6 +106,11 @@ final cardTextStyleWhite = GoogleFonts.rubik(
   color: WhiteColor,
   fontWeight: FontMedium,
 );
+final cardTextStyleWhiteSmall = GoogleFonts.rubik(
+  fontSize: 15,
+  color: WhiteColor,
+  fontWeight: FontMedium,
+);
 
 final subHeaderTextStyle = GoogleFonts.rubik(
   fontSize: 17,
@@ -117,6 +122,12 @@ final subHeaderTextStyleBlack = GoogleFonts.rubik(
   fontSize: 20,
   color: Colors.black,
   fontWeight: FontWeight.bold,
+);
+
+final buttonText = GoogleFonts.rubik(
+  fontSize: 18,
+  color: Colors.white,
+  fontWeight: FontRegular,
 );
 
 final mediumTitleTextStyle = GoogleFonts.rubik(

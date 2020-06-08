@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "168288907741",
+    "firebase_url": "https://ecommerce-f35a4.firebaseio.com",
+    "project_id": "ecommerce-f35a4",
+    "storage_bucket": "ecommerce-f35a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168288907741:android:e41976da3e5bcf78f40634",
+        "android_client_info": {
+          "package_name": "com.apptomate.truck_learning"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "168288907741-kgd2pldbmu76385ipougnpg3hu8c7uku.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.apptomate.truck_learning",
+            "certificate_hash": "aa5b487e61a405a347e80c037268548ae65b6173"
+          }
+        },
+        {
+          "client_id": "168288907741-ekg6o01rnbj18l4fn6htiat3sasopne5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuYtyHkc8rNHB2_wSO9gj-epDpLjbG5IU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "168288907741-ekg6o01rnbj18l4fn6htiat3sasopne5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
