@@ -1,4 +1,4 @@
-class CourseListModel
+class ChaptersListModel
 {
   String _mediaContentId;
   String _contentTitle;

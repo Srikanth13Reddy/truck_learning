@@ -303,7 +303,7 @@ class _LoginPageState extends State<LoginPage> implements SaveView
             children: <TextSpan>[
               TextSpan(
                 text: 'Sign Up' + "   " ,
-                style: mediumTitleTextStyleGreen,
+                style: mediumTitleTextStylePrimary,
               ),
             ],
           ),
@@ -377,7 +377,8 @@ class _LoginPageState extends State<LoginPage> implements SaveView
   }
 
   Future<void> _assigndata(String res) async {
-    final data=jsonDecode(res);
+    final data_=jsonDecode(res);
+    var data= (data_['data']);
     final sharedPref = await SharedPreferences.getInstance();
     sharedPref.setString('userId', data['userId'].toString());
     sharedPref.setString('firstName', data['firstName']);
@@ -400,7 +401,8 @@ class _LoginPageState extends State<LoginPage> implements SaveView
   void _assigngoogledata(res)async
   {
     final sharedPref = await SharedPreferences.getInstance();
-     var data= jsonDecode(res);
+    var data_= jsonDecode(res);
+    var data= (data_['data']);
      String phone=data['phone'];
      String userId=data['userId'].toString();
      print('Gdata'+"\n"+res);

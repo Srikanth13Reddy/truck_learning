@@ -1,4 +1,4 @@
-import 'main_course_list_model.dart';
+
 
 class FeaturedCourseModel
 {

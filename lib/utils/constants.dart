@@ -14,8 +14,9 @@ const String Error_Name_Empty_Test = 'Please enter the name';
 const String Error_Mobile_Empty_Test = 'Please enter the phone number';
 const String Error_Invalid_Email_Format_Test = 'Not a valid email format';
 const String Error_Password_Empty_Test = 'Please enter the password';
+const String plaseHolderImgUrl='https://img.etb2bimg.com/files/cp/upload-0.92099500%2015822828078880-heavy-truck.jpg';
 
-const String Base_Url='https://spiritmeter.azurewebsites.net/api/';
+const String Base_Url='https://devnationaltraining.azurewebsites.net/api/';
 const String Error_No_Internet_Test =
     'Unable to connect, Please Check Internet Connection';
 

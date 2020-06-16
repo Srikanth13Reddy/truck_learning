@@ -118,10 +118,18 @@ final subHeaderTextStyle = GoogleFonts.rubik(
   fontWeight: FontRegular,
 );
 
+
+
 final subHeaderTextStyleBlack = GoogleFonts.rubik(
   fontSize: 20,
   color: Colors.black,
   fontWeight: FontWeight.bold,
+);
+
+final subHeaderTextStyleBlackNormal = GoogleFonts.rubik(
+  fontSize: 20,
+  color: Colors.black,
+  fontWeight: FontWeight.normal,
 );
 
 final buttonText = GoogleFonts.rubik(
@@ -131,21 +139,41 @@ final buttonText = GoogleFonts.rubik(
 );
 
 final mediumTitleTextStyle = GoogleFonts.rubik(
-  fontSize: 14,
+  fontSize: 16,
   color: SubTitleColor,
   fontWeight: FontRegular,
 );
 
-final mediumTitleTextStyleGreen = GoogleFonts.rubik(
+
+
+final mediumTitleTextStylePrimary = GoogleFonts.rubik(
   fontSize: 16,
+  color: PrimaryButtonColor,
+  fontWeight: FontMedium,
+);
+
+final smallTitleTextStylePrimary = GoogleFonts.rubik(
+  fontSize: 14,
   color: PrimaryButtonColor,
   fontWeight: FontMedium,
 );
 
 final mediumTitleTextStyleBlack = GoogleFonts.rubik(
   fontSize: 14,
-  color: TitleColor,
+  color: Colors.black,
   fontWeight: FontRegular,
+);
+
+final mediumTitleTextStyleBlackBold = GoogleFonts.rubik(
+  fontSize: 16,
+  color: Colors.black,
+  fontWeight: FontWeight.bold,
+);
+
+final averageTitleTextStyleBlackBold = GoogleFonts.rubik(
+  fontSize: 17,
+  color: Colors.black,
+  fontWeight: FontWeight.bold,
 );
 
 

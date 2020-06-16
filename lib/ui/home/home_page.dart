@@ -1,16 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:truck_learning/models/FeaturedCourseModel.dart';
 import 'package:truck_learning/models/LastSeenCourseListModel.dart';
 import 'package:truck_learning/services/save.dart';
 import 'package:truck_learning/services/saveView.dart';
-import 'package:truck_learning/ui/last_screen_ui.dart';
-import 'package:truck_learning/ui/truck_types.dart';
+import 'package:truck_learning/ui/course_.dart';
 import 'package:truck_learning/utils/colors.dart';
 import 'package:truck_learning/utils/customtextstyle.dart';
 import 'package:truck_learning/utils/network_utils.dart';
@@ -37,20 +36,15 @@ class _HomePageState extends State<HomePage> implements SaveView
       switch(_selectedIndex)
       {
         case 0:
-          CustomToast.show('WishList',context);
-          print('WishList');
           break;
         case 1:
-          CustomToast.show('Search',context);
-          print('Search');
+          Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext ctx) => Course()));
+
           break;
         case 2:
-          CustomToast.show('My Courses',context);
-          print('My Courses');
           break;
         case 3:
-          CustomToast.show('Account',context);
-          print('Account');
           break;
 
       }
@@ -66,7 +60,7 @@ class _HomePageState extends State<HomePage> implements SaveView
         isLoading: _isLoading,
         widget: Scaffold(
           bottomNavigationBar: _bottomNavBar(),
-         backgroundColor: Colors.white,
+         backgroundColor:  Color(0xfff3f5f9),
           body: SafeArea(
             child: _featureList(),
           ),
@@ -75,60 +69,32 @@ class _HomePageState extends State<HomePage> implements SaveView
     );
   }
 
-  Widget _getStarted()
-  {
-    final button= SizedBox(
-      width: 120,
-      height: 42,
-      child: RaisedButton(
-        color: PrimaryButtonColor,
-        child: Text('Get Started',style: TextStyle(color: Colors.white),),
-        onPressed: (){
-          Navigator.push(context,
-              MaterialPageRoute(builder: (BuildContext ctx) => Coursc()));
-        },
-        shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(20.0)
-        ),
-      ),
-    );
-    return Padding(
-      padding: const EdgeInsets.only(top: 24),
-      child: Align(
-        alignment: Alignment.topLeft,
-        child: button,
-      ),
-    );
-  }
 
   Widget _bottomNavBar()
   {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      selectedFontSize: 12,
-      unselectedFontSize: 12,
-      backgroundColor: Colors.black,
-      unselectedItemColor: Colors.white,
+      backgroundColor: Colors.white,
+     // unselectedItemColor: Colors.white,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.star_border),
+          icon: Icon(Icons.home),
+          title: Text('Home'),
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.library_books),
+          title: Text('Course'),),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.favorite_border,),
           title: Text('Wishlist'),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.search),
-          title: Text('Search'),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.video_library,),
-          title: Text('My Courses'),
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.account_circle,),
-          title: Text('Account'),
+          icon: Icon(Icons.settings,),
+          title: Text('Settings'),
         ),
       ],
       currentIndex: _selectedIndex,
-      selectedItemColor: Colors.white,
+      selectedItemColor: PrimaryButtonColor,
       onTap: _onItemTapped,
     );
   }
@@ -235,114 +201,24 @@ class _HomePageState extends State<HomePage> implements SaveView
     );
   }
 
-   Widget _getStartCard()
-   {
-     return Container(
-       width: double.infinity,
-       height: 220,
-       decoration: BoxDecoration(
-           color: Colors.transparent,
-           image: DecorationImage(
-               image: AssetImage('images/mainpage_1.png'),fit: BoxFit.fill
-           ),
-           borderRadius: BorderRadius.circular(10)
-       ),
-       child: Padding(
-         padding: const EdgeInsets.all(20.0),
-         child: Column(
-           mainAxisAlignment: MainAxisAlignment.center,
-           crossAxisAlignment: CrossAxisAlignment.start,
-           children: <Widget>[
-             Text(' What do you \n Want to learn \n today ?',
-               style: TextStyle(color: Colors.white,fontSize: 24,fontWeight: FontWeight.bold),),
-             _getStarted()
-           ],
-         ),
-       ),
-     );
-   }
-
-  Widget _featured_()
-  {
-    return Container(
-      height: 180,
-      child: ListView.builder(
-        itemCount: feature_list==null?0:feature_list.length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder:(context,index)
-          {
-
-             return  Container(
-                 decoration: BoxDecoration(
-                     color: Colors.transparent,
-                     image: DecorationImage(
-                         image: AssetImage('images/mainpage_2.jpg'),fit: BoxFit.fill
-                     ),
-                     borderRadius: BorderRadius.circular(10)
-                 ),
-                 child: Padding(
-                   padding: const EdgeInsets.only(bottom: 12),
-                   child: Align(
-                     alignment: Alignment.bottomCenter,
-                     child: Text(feature_list[index].courseName,
-                       style: TextStyle(color: Colors.white,
-                           fontWeight: FontWeight.bold,fontSize: 18),),
-                   ),
-                 ),
-                 margin: EdgeInsets.only(right: 12),
-                 width: 300.0);
-          }
-      ),
-    );
-  }
 
 
 
-   Widget _lastseenList()
-   {
-     return ListView.builder(
-       shrinkWrap: true,
-         itemCount: lastseen_list==null?0:lastseen_list.length,
-         itemBuilder: (context,index)
-             {
-               return Card(
-                   color: Color.fromRGBO(242, 248, 252, 1),
-                   child: ListTile(
-                     leading: CircleAvatar(
-                       radius: 26,
-                       backgroundImage: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQmrk0yixCU_8a_Szp3UdBblF1BM7XzPYJpli1LXx7aU1EtNNvE&usqp=CAU'),
-                     ),
-                     trailing:  CircularPercentIndicator(
-                       radius: 40.0,
-                       lineWidth: 2.0,
-                       percent: 0.8,
-                       center:Icon(
-                         Icons.play_arrow,
-                         size: 24.0,
-                         color: Colors.orange,
-                       ),
-                       backgroundColor: Colors.grey,
-                       progressColor: Colors.orange,
-                     ),
-                     title: Text(lastseen_list[index].courseName,style: TextStyle(fontWeight: FontWeight.bold),),
-                     subtitle: Text(lastseen_list[index].courseDescription),));
-             }
-     );
-   }
 
   @override
   void onFailur(String error, String res, int code)
   {
+    print("Data"+res);
     setState(() {
       _isLoading=false;
     });
-    print(res);
+
   }
 
   @override
   void onSuccess(String res, String type,)
   {
-    print(res);
+    print("Data"+res);
     setState(() {
       _isLoading=false;
     });
@@ -381,7 +257,7 @@ class _HomePageState extends State<HomePage> implements SaveView
      for(int i=0;i<lslist.length;i++)
      {
        LastSeenCourseListModel featuredCourseModel=LastSeenCourseListModel(lslist[i]['courseDetailId'].toString(),lslist[i]['userId'].toString(),lslist[i]['courseId'].toString(),lslist[i]['courseName'],
-         lslist[i]['courseCategory'],lslist[i]['courseDescription'],lslist[i]['courseStartDate'],lslist[i]['courseEndDate'],);
+         lslist[i]['courseCategory'],lslist[i]['courseDescription'],lslist[i]['courseStartDate'],lslist[i]['courseEndDate'],lslist[i]['courseURL'],);
        lastseen_list.add(featuredCourseModel);
      }
   }
@@ -394,7 +270,7 @@ class _HomePageState extends State<HomePage> implements SaveView
       children: <Widget>[
         _profile(),
         SizedBox(height: 24,),
-        _getStartCard(),
+        _searchBar(),
         SizedBox(height: 12,),
         Text(
           ' Featured',
@@ -410,25 +286,171 @@ class _HomePageState extends State<HomePage> implements SaveView
               ' Last seen courses',
               style: subHeaderTextStyleBlack,
             ),
-            GestureDetector(
-              onTap: (){
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (BuildContext ctx) => LastSeenList(lastseen_list)));
-              },
-              child: Text(
-                ' View all',
-                style: TextStyle(color: PrimaryButtonColor,fontWeight: FontWeight.bold),
-              ),
-            ),
+//            GestureDetector(
+//              onTap: (){
+//                Navigator.push(context,
+//                    MaterialPageRoute(builder: (BuildContext ctx) => LastSeenList(lastseen_list)));
+//              },
+//              child: Text(
+//                ' View all',
+//                style: TextStyle(color: PrimaryButtonColor,fontWeight: FontWeight.bold),
+//              ),
+//            ),
           ],
         ),
 
         SizedBox(height: 18,),
-        _lastseenList()
+        _lastSeen()
 
       ],
     );
   }
 
+  Widget _lastSeen()
+  {
+    return Container(
+      height: 210,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: lastseen_list==null?0:lastseen_list.length,
+          itemBuilder: (context,index)
+          {
+            return Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10)
+              ),
+              margin: EdgeInsets.only(right: 12),
+              child: Column(
+                children: [
+                  Container(
+                    height: 140,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      image: DecorationImage(
+                          image: NetworkImage(lastseen_list[index].courseURL),fit: BoxFit.fill
+                      ),
+                        borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        topRight: Radius.circular(10.0),
+                        bottomLeft: Radius.zero,
+                        bottomRight: Radius.zero,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 200,
+                    padding: EdgeInsets.only(left: 10,right: 10),
+                    color: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 12,),
+                        Text('CDL Class A',style: mediumTitleTextStyleBlackBold,),
+                        SizedBox(height: 10,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Srikanth',style: mediumTitleTextStyle,),
+                            LinearPercentIndicator(
+                              width: 70.0,
+                              lineHeight: 6.0,
+                              percent: 0.7,
+                              progressColor: Colors.orange,
+                            ),
+                          ],
+                        )
+
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            );
+          }),
+    );
+  }
+
+  Widget _featured_()
+  {
+    return Container(
+      height: 210,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: 20,
+          itemBuilder: (context,index)
+          {
+            return Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10)
+              ),
+              margin: EdgeInsets.only(right: 12),
+              child: Column(
+                children: [
+                  Container(
+                    height: 140,
+                    width: 200,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      image: DecorationImage(
+                          image: AssetImage('images/mainpage_2.jpg'),fit: BoxFit.fill
+                      ),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        topRight: Radius.circular(10.0),
+                        bottomLeft: Radius.zero,
+                        bottomRight: Radius.zero,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 200,
+                    padding: EdgeInsets.only(left: 10,right: 10),
+                    color: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 12,),
+                        Text('CDL Class A',style: mediumTitleTextStyleBlackBold,),
+                        SizedBox(height: 10,),
+                        Text('Srikanth',style: mediumTitleTextStyle,),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            );
+          }),
+    );
+  }
+
+  Widget _searchBar()
+  {
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18.0),
+      ),
+      child: TextField(
+        decoration: InputDecoration(
+          hintStyle: TextStyle(fontSize: 18),
+          hintText: 'Search....',
+          prefixIcon: Icon(Icons.search,color: PrimaryButtonColor,),
+          border: InputBorder.none,
+          contentPadding: EdgeInsets.all(16),
+        ),
+
+        onChanged: (string){
+          setState(() {
+            // filteredUser=arraylist.where((element) => (element.vehicleType.toLowerCase().contains(string.toLowerCase()))).toList();
+          });
+        },
+      ),
+    );
+  }
 
 }

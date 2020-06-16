@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const Color TitleColor = Color.fromRGBO(71, 71, 71, 1);
-const Color BackgroundColor = Color.fromRGBO(244, 244, 244, 1);
+const Color BackgroundColor = Color(0xfff3f5f9);
 const Color SubTitleColor = Color.fromRGBO(150, 150, 150, 1);
 const Color PrimaryButtonColor = Color.fromRGBO(255, 127, 45, 1);
 const Color PrimaryButtonColorShadow = Color.fromRGBO(137, 161, 75, 1);

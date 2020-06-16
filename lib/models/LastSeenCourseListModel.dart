@@ -8,10 +8,18 @@ class LastSeenCourseListModel
   String _courseDescription;
   String _courseStartDate;
   String _courseEndDate;
+  String _courseURL;
 
   LastSeenCourseListModel(this._courseDetailId, this._userId, this._courseId,
       this._courseName, this._courseCategory, this._courseDescription,
-      this._courseStartDate, this._courseEndDate);
+      this._courseStartDate, this._courseEndDate,this._courseURL);
+
+
+  String get courseURL => _courseURL;
+
+  set courseURL(String value) {
+    _courseURL = value;
+  }
 
   String get courseEndDate => _courseEndDate;
 
